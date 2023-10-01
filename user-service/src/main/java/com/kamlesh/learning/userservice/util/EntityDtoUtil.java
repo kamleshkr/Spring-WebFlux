@@ -1,8 +1,12 @@
 package com.kamlesh.learning.userservice.util;
 
-import com.kamlesh.learning.userservice.dto.UserDto;
+import com.kamlesh.learning.userservice.dto.*;
 import com.kamlesh.learning.userservice.entity.User;
+import com.kamlesh.learning.userservice.entity.UserTransaction;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
+
+import java.time.LocalDateTime;
 
 public class EntityDtoUtil {
 
@@ -18,5 +22,25 @@ public class EntityDtoUtil {
         return user;
     }
 
-    //private static UT toDto (UT u)
+    public static UserTransaction toEntity(TransactionRequestDto requestDto) {
+        UserTransaction ut = new UserTransaction();
+        ut.setUserId(requestDto.getUserId());
+        ut.setAmount(requestDto.getAmount());
+        ut.setTransactionDate(LocalDateTime.now());
+        return ut;
+    }
+
+    public static TransactionResponseDto toDto(TransactionRequestDto requestDto, TransactionStatus status) {
+        TransactionResponseDto responseDto = new TransactionResponseDto();
+        responseDto.setAmount(requestDto.getAmount());
+        responseDto.setUserId(requestDto.getUserId());
+        responseDto.setStatus(status);
+        return responseDto;
+    }
+
+    public static UserTransactionDto toDto(UserTransaction userTransaction) {
+        UserTransactionDto dto = new UserTransactionDto();
+        BeanUtils.copyProperties(userTransaction, dto);
+        return dto;
+    }
 }

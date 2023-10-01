@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public Mono<ResponseEntity<UserDto>> updateUser(@PathVariable int id, Mono<UserDto> userDtoMono) {
+    public Mono<ResponseEntity<UserDto>> updateUser(@PathVariable int id, @RequestBody Mono<UserDto> userDtoMono) {
         return service.updateUser(id, userDtoMono)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
